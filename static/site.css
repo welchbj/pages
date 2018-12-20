@@ -1,0 +1,136 @@
+/* general */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  color: #4e42f4;
+  font-family: 'Cardo', serif;
+
+  display: flex;
+  flex-direction: column;
+
+  background-image: url('/static/img/pages-bg.svg');
+  background-attachment: fixed;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  padding-left: 50px;
+  padding-right: 80px;
+}
+
+body, p {
+ margin: 0;
+}
+
+a, a:visited {
+  color: #4e42f4;
+  text-decoration: underline;
+  text-decoration-skip: ink;
+}
+
+a:active {
+  color: #c8c4ff;
+}
+
+::selection {
+  color: #fff;
+  background: #4e42f4;
+}
+
+
+/* utilities */
+
+.josefin {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.thin-font {
+  font-weight: 100;
+}
+
+.medium-font {
+  font-weight: 300;
+}
+
+.thick-font {
+  font-weight: 700;
+}
+
+
+/* nav bar */
+
+nav.top-nav {
+  padding-top: 20px;
+  padding-right: 40px;
+}
+
+div.nav-options {
+  padding-top: 2px;
+  float: right;
+}
+
+div.nav-options a {
+  font-size: 1.1rem;
+  text-decoration: none;
+
+  padding-left: 10px;
+}
+
+
+/* specific tweaks */
+
+h1.title {
+  font-size: 4rem;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+img.logo {
+  max-width: 100px;
+}
+
+div.content {
+  padding-top: 10vh;
+  max-width: 675px;
+  flex: 1 0 auto;
+}
+
+div.tagline {
+  font-size: 2rem;
+}
+
+div.description {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-size: 1.25rem;
+}
+
+footer {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  padding-bottom: 15px;
+}
+
+
+/* mobile media queries */
+
+@media screen and (max-width: 600px) {
+  body {
+    padding-left: 10px;
+  }
+
+  div.nav-options {
+    padding-top: 10px;
+    padding-bottom: 50px;
+    float: none;
+  }
+
+  div.nav-options a {
+    float: left;
+    clear: left;
+    padding-left: 0px;
+  }
+}
