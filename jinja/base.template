@@ -21,7 +21,6 @@
   <body>
     <nav class="top-nav">
       <a href="/">
-        <!-- TODO: logo -->
         <img class="logo" src="/static/img/logo.png" alt="pages logo">
       </a>
       <div class="nav-options josefin">
