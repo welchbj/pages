@@ -1,0 +1,25 @@
+{% extends "base.template" %}
+
+{% block title %}pages - about{% endblock %}
+
+{% block header %}
+  <p class="thick-font">about</p>
+{% endblock %}
+
+{% block content %}
+  <div class="tagline medium-font josefin">
+    <p>What is this site?</p>
+  </div>
+  <div class="description">
+    <p>When learning about a new topic or studying for an exam, I like to compile my notes and findings into Markdown documentation. I find that the best way to ensure mastery of a topic is having the ability to explain it to others.</p>
+    <br>
+    <p>Because this site is really just for me to have a place to reference my previous notes and code snippets, I have disabled search engine indexing site-wide. If you have still come across this site, feel free to poke around. I have done my best to reference the sources from which I find my information, and they are probably more worth your time than my notes on here.</p>
+  </div>
+
+  <div class="tagline medium-font josefin">
+    <p>How is this site built?</p>
+  </div>
+  <div class="description">
+    <p>This site is an open source project. It uses a combination of <a href="http://jinja.pocoo.org/">Jinja</a> templates and <a href="https://daringfireball.net/projects/markdown/">Markdown</a> source files to generate a static HTML site, hosted (for free!) on <a href="https://www.netlify.com/">Netlify</a>. You can take a look at the source on <a href="https://github.com/welchbj/pages">GitHub</a>.</p>
+  </div>
+{% endblock %}
