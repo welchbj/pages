@@ -80,7 +80,8 @@ def serve():
 
     watch_patterns = [
         os.path.join(MD_DIR, '*.md'),
-        os.path.join(JINJA_DIR, '*')
+        os.path.join(JINJA_DIR, '*'),
+        os.path.join(STATIC_DIR, '**', '*')
     ]
 
     server = Server()
