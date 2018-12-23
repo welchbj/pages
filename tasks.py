@@ -7,6 +7,8 @@ import os
 import shutil
 import sys
 
+from collections import (
+    namedtuple)
 from jinja2 import (
     Environment,
     FileSystemLoader)
@@ -21,7 +23,11 @@ JINJA_DIR = os.path.join(HERE, 'jinja')
 BUILD_DIR = os.path.join(HERE, 'build')
 BUILD_STATIC_DIR = os.path.join(BUILD_DIR, 'static')
 
-MD_EXTRAS = ['metadata']
+MD_EXTRAS = ['fenced-code-blocks', 'header-ids', 'metadata', 'tables']
+
+Page = namedtuple(
+    'Page',
+    ['published_at', 'last_modified_at', 'title', 'raw_html'])
 
 
 def _mkdir_if_not_present(dirname):
@@ -37,10 +43,10 @@ def _rmdir_if_present(dirname):
         pass
 
 
-def _iter_filenames(directory, glob_pattern):
+def _iter_paths(directory, glob_pattern):
     """Iterate over files within a directory that match a pattern."""
     for path in Path(directory).glob(glob_pattern):
-        yield path.name
+        yield path
 
 
 def build():
@@ -50,16 +56,32 @@ def build():
 
     # compile html pages
     env = Environment(loader=FileSystemLoader(JINJA_DIR))
-    for html_page in _iter_filenames(JINJA_DIR, '*.html'):
-        template = env.get_template(html_page)
+    for html_path in _iter_paths(JINJA_DIR, '*.html'):
+        template = env.get_template(html_path.name)
         rendered_page = template.render()
-        dest_path = os.path.join(BUILD_DIR, html_page)
+        dest_path = os.path.join(BUILD_DIR, html_path.name)
         with open(dest_path, 'w') as f:
             f.write(rendered_page)
     print('[*] Compiled HTML pages into', BUILD_DIR)
 
     # compile markdown pages
-    # TODO
+    md_template = env.get_template('md_page.template')
+    for md_path in _iter_paths(MD_DIR, '*.md'):
+        with md_path.open(encoding='utf-8') as f:
+            md_source = f.read()
+
+        md_as_html = markdown2.markdown(md_source, extras=MD_EXTRAS)
+        page = Page(
+            md_as_html.metadata['published_at'],
+            md_as_html.metadata['last_modified_at'],
+            md_as_html.metadata['title'],
+            str(md_as_html))
+        rendered_page = md_template.render(page=page)
+
+        dest_fname = md_path.stem + '.html'
+        dest_path = os.path.join(BUILD_DIR, dest_fname)
+        with open(dest_path, 'w') as f:
+            f.write(rendered_page)
     print('[*] Compiled markdown pages into', BUILD_DIR)
 
     # copy static files into the build static directory
@@ -81,6 +103,7 @@ def serve():
     watch_patterns = [
         os.path.join(MD_DIR, '*.md'),
         os.path.join(JINJA_DIR, '*'),
+        os.path.join(STATIC_DIR, '*'),
         os.path.join(STATIC_DIR, '**', '*')
     ]
 
@@ -112,4 +135,5 @@ if __name__ == '__main__':
         print('Specified task must be one of:', ', '.join(TASK_KEYS))
         sys.exit(1)
 
-    TASKS[task]()
+    task_func = TASKS[task]
+    task_func()

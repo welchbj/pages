@@ -1,7 +1,7 @@
 ---
-title: Pentesting reference
-published: 2018-12-20
-last_modified: 2018-12-20
+title: pentesting reference
+published_at: 2018-12-20
+last_modified_at: 2018-12-20
 ---
 
 # Penetration Testing Reference
@@ -2045,7 +2045,7 @@ pth-winexe -U <domain>/<username>%<ntlm> //<target> cmd.exe
 
 * SMB enumeration using hashed credentials
 ``` sh
-nmap -p U:137,T:139 -–script=smb-enum-groups,smb-enum-users –-script-args 'smbuser=<username>,smbhash=<lmhash>' <ip>
+nmap -p U:137,T:139 --script=smb-enum-groups,smb-enum-users --script-args 'smbuser=<username>,smbhash=<lmhash>' <ip>
 ```
 
 
@@ -2187,7 +2187,7 @@ Import-Module Recon
 Get-Command -Module Recon
 
 # find all users currently logged in, in a specific group
-Invoke-UserHunter –GroupName <groupname>
+Invoke-UserHunter -GroupName <groupname>
 
 # find local admins per machine
 Get-NetLocalGroup <ip>
@@ -2716,7 +2716,7 @@ ls | ?{$_.LastWriteTime -ge [DateTime]::Today}
 Get-WinEvent -ListLog * -EA silentlycontinue
 
 # query recent events from all logs
-Get-WinEvent -ListLog * -EA silentlycontinue | where-object { $_.recordcount -AND $_.lastwritetime -gt [datetime]::today} | Foreach-Object { get-winevent -LogName $_.logname -MaxEvents 1 } | Format-Table TimeCreated, ID, ProviderName, Message -AutoSize –Wrap
+Get-WinEvent -ListLog * -EA silentlycontinue | where-object { $_.recordcount -AND $_.lastwritetime -gt [datetime]::today} | Foreach-Object { get-winevent -LogName $_.logname -MaxEvents 1 } | Format-Table TimeCreated, ID, ProviderName, Message -AutoSize -Wrap
 ```
 
 * SIDs

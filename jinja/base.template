@@ -15,7 +15,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Cardo|Josefin+Sans:300,700" rel="stylesheet">
     <link rel="stylesheet" href="/static/site.css" type="text/css" charset="utf-8">
-    <!-- TODO: other style sheets -->
+    <link rel="stylesheet" href="/static/pygment.css" type="text/css" charset="utf-8">
+    {% block extra_css %}{% endblock %}
   </head>
 
   <body>

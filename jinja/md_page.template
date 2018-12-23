@@ -1,0 +1,16 @@
+{% extends "base.template" %}
+
+{% block title %}pages - {{ page.title }}{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="/static/md.css" type="text/css" charset="utf-8">
+{% endblock %}
+
+<!-- TODO: published date -->
+<!-- TODO: last modified date -->
+
+{% block content %}
+  <div class="markdown-body">
+    {{ page.raw_html|safe }}
+  </div>
+{% endblock %}
