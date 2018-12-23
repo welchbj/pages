@@ -22,6 +22,7 @@ STATIC_DIR = os.path.join(HERE, 'static')
 JINJA_DIR = os.path.join(HERE, 'jinja')
 BUILD_DIR = os.path.join(HERE, 'build')
 BUILD_STATIC_DIR = os.path.join(BUILD_DIR, 'static')
+FAVICON_PATH = os.path.join(STATIC_DIR, 'favicon.ico')
 
 MD_EXTRAS = ['fenced-code-blocks', 'header-ids', 'metadata', 'tables']
 
@@ -85,6 +86,7 @@ def build():
     print('[*] Compiled markdown pages into', BUILD_DIR)
 
     # copy static files into the build static directory
+    shutil.copy(FAVICON_PATH, BUILD_DIR)
     _rmdir_if_present(BUILD_STATIC_DIR)
     shutil.copytree(STATIC_DIR, BUILD_STATIC_DIR)
     print('[*] Copied static assets into', BUILD_STATIC_DIR)
