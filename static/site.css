@@ -59,6 +59,14 @@ a:active {
   font-weight: 700;
 }
 
+.std-font {
+  font-size: 1.25rem;
+}
+
+.small-font {
+  font-size: 0.75rem;
+}
+
 
 /* nav bar */
 
@@ -77,6 +85,31 @@ div.nav-options a {
   text-decoration: none;
 
   padding-left: 10px;
+}
+
+
+/* lists */
+
+ul.page-list {
+  list-style-type: none;
+  padding: 0px;
+}
+
+li.page-list {
+  border-bottom: 1px solid #4e42f4;
+  margin-top: 25px;
+}
+
+li.page-list > p.trailing-p {
+  margin-bottom: 25px;
+}
+
+li.page-list:last-child {
+  border: none;
+}
+
+li.page-list > h2 {
+  margin: 0px;
 }
 
 

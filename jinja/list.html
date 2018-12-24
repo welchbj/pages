@@ -1,1 +1,23 @@
-TODO
+{% extends "base.template" %}
+
+{% block title %}pages - list{% endblock %}
+
+{% block header %}
+  list
+{% endblock %}
+
+{% block content %}
+  <ul class="page-list">
+    {% for page in pages %}
+      <li class="page-list">
+        <h2 class="josefin"><a href="{{ page.link }}">{{ page.title }}</a></h2>
+        <p class="std-font">
+          {{ page.description }}
+        </p>
+        <p class="small-font trailing-p">
+          last updated {{ page.last_modified_at.strftime('%B %d,  %Y') }}
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

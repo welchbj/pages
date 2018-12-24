@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import datetime
 import markdown2
 import os
 import shutil
@@ -26,9 +27,12 @@ FAVICON_PATH = os.path.join(STATIC_DIR, 'favicon.ico')
 
 MD_EXTRAS = ['fenced-code-blocks', 'header-ids', 'metadata', 'tables']
 
+DT_IN_FORMAT = '%Y-%m-%d'
+
 Page = namedtuple(
     'Page',
-    ['published_at', 'last_modified_at', 'title', 'raw_html'])
+    ['description', 'link', 'published_at', 'last_modified_at', 'raw_html',
+     'title'])
 
 
 def _mkdir_if_not_present(dirname):
@@ -50,22 +54,20 @@ def _iter_paths(directory, glob_pattern):
         yield path
 
 
+def _to_dt(dt_str):
+    """Convert a string to a datetime.datetime object."""
+    return datetime.datetime.strptime(dt_str, DT_IN_FORMAT)
+
+
 def build():
     """Compile the site into the build directory."""
     clean()
     _mkdir_if_not_present(BUILD_DIR)
 
-    # compile html pages
     env = Environment(loader=FileSystemLoader(JINJA_DIR))
-    for html_path in _iter_paths(JINJA_DIR, '*.html'):
-        template = env.get_template(html_path.name)
-        rendered_page = template.render()
-        dest_path = os.path.join(BUILD_DIR, html_path.name)
-        with open(dest_path, 'w') as f:
-            f.write(rendered_page)
-    print('[*] Compiled HTML pages into', BUILD_DIR)
 
     # compile markdown pages
+    pages = []
     md_template = env.get_template('md_page.template')
     for md_path in _iter_paths(MD_DIR, '*.md'):
         with md_path.open(encoding='utf-8') as f:
@@ -73,10 +75,13 @@ def build():
 
         md_as_html = markdown2.markdown(md_source, extras=MD_EXTRAS)
         page = Page(
-            md_as_html.metadata['published_at'],
-            md_as_html.metadata['last_modified_at'],
-            md_as_html.metadata['title'],
-            str(md_as_html))
+            md_as_html.metadata['description'],
+            '/' + md_path.stem,
+            _to_dt(md_as_html.metadata['published_at']),
+            _to_dt(md_as_html.metadata['last_modified_at']),
+            str(md_as_html),
+            md_as_html.metadata['title'])
+        pages.append(page)
         rendered_page = md_template.render(page=page)
 
         dest_fname = md_path.stem + '.html'
@@ -84,6 +89,15 @@ def build():
         with open(dest_path, 'w') as f:
             f.write(rendered_page)
     print('[*] Compiled markdown pages into', BUILD_DIR)
+
+    # compile html pages
+    for html_path in _iter_paths(JINJA_DIR, '*.html'):
+        template = env.get_template(html_path.name)
+        rendered_page = template.render(pages=pages)
+        dest_path = os.path.join(BUILD_DIR, html_path.name)
+        with open(dest_path, 'w') as f:
+            f.write(rendered_page)
+    print('[*] Compiled HTML pages into', BUILD_DIR)
 
     # copy static files into the build static directory
     shutil.copy(FAVICON_PATH, BUILD_DIR)
