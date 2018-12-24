@@ -38,7 +38,7 @@
       {% block content %}
       {% endblock %}
     </div>
-    <footer>
+    <footer class="josefin">
       &copy; 2018 <a href="https://brianwel.ch">Brian Welch</a>
     </footer>
   </body>
