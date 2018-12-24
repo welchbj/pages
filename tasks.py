@@ -82,6 +82,7 @@ def build():
             str(md_as_html),
             md_as_html.metadata['title'])
         pages.append(page)
+        pages = sorted(pages, key=lambda p: p.last_modified_at, reverse=True)
         rendered_page = md_template.render(page=page)
 
         dest_fname = md_path.stem + '.html'
