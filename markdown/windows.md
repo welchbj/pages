@@ -99,7 +99,7 @@ An old DOS utility for for setting or clearing CTRL+C checking. Has no effect on
 
 ### `call`
 
-Call one batch program from another. Also accepts labels for calling subroutines defined within the same batch file. This will result in a new batch context being created with the specified arguments being passed to the new context. The parent batch program pauses during the execution of the called program. See the [SS64 `call` reference](https://ss64.com/nt/call.html) for more advanced usage examples and features.
+Call one batch program from another. Also accepts labels for calling subroutines defined within the same batch file. This will result in a new batch context being created with the specified arguments being passed to the new context. The parent batch program pauses during the execution of the called program. See the [SS64 call reference](https://ss64.com/nt/call.html) for more advanced usage examples and features.
 
 Notes:
 
@@ -427,7 +427,7 @@ pause >nul
 
 ### `prompt`
 
-Changes the `cmd.exe` prompt string to the specified text. See the [SS64 `prompt` page](https://ss64.com/nt/prompt.html) for a list of the available special codes.
+Changes the `cmd.exe` prompt string to the specified text. See the [SS64 prompt page](https://ss64.com/nt/prompt.html) for a list of the available special codes.
 
 ### `pushd` / `popd`
 
@@ -742,7 +742,7 @@ Couldn't find it
 
 ### `wmic`
 
-Windows Management Instrumentation Command: retrieve a huge range of information about local or remote computers. See the [SS64 `wmic` reference](https://ss64.com/nt/wmic.html) for a full overview of functionality.
+Windows Management Instrumentation Command: retrieve a huge range of information about local or remote computers. See the [SS64 wmic reference](https://ss64.com/nt/wmic.html) for a full overview of functionality.
 
 ```bat
 :: show all users on the local machine
