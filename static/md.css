@@ -458,12 +458,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .markdown-body table tr {
-  background-color: #fff;
+  background-color: rgb(255, 255, 255, 0.4);
   border-top: 1px solid #c6cbd1;
 }
 
 .markdown-body table tr:nth-child(2n) {
-  background-color: #f6f8fa;
+  background-color: rgb(244, 232, 255, 0.4);
 }
 
 .markdown-body img {
