@@ -102,6 +102,7 @@ An old DOS utility for for setting or clearing CTRL+C checking. Has no effect on
 Call one batch program from another. Also accepts labels for calling subroutines defined within the same batch file. This will result in a new batch context being created with the specified arguments being passed to the new context. The parent batch program pauses during the execution of the called program. See the [SS64 `call` reference](https://ss64.com/nt/call.html) for more advanced usage examples and features.
 
 Notes:
+
 * You should always end subroutines with `exit /b` or `goto :eof` (which accomplish the same thing) in order to return to the original `call` position
 * The `&`, `|`, and `<>` operators are quite buggy when used in conjunction with `call`
 * Avoid variable namespacing conflicts with the `setlocal` and `endlocal` commands
