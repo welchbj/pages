@@ -1324,36 +1324,71 @@ iptables -t nat -A POSTROUTING -p tcp -i <interface> -j SNAT -s <target-subnet-c
 iptables -t filter -I FORWARD 1 -j ACCEPT
 ```
 
-* SSH tunnelling
-``` sh
-# local port forwarding (tunnel a local port to a remote server)
+* SSH tunnelling (note that the `-N` option in the below examples disables command execution, preventing the opening of a command prompt)
+```sh
+# Local Port Forwarding (-L)
+# --------------------------
+# local port forwarding (tunnel a local port to a remote server); use this to
+# expose an internal port on a server
 ssh -N <gateway> -p <port> -L <localport>:<remotehost>:<remoteport>
-        ^            ^         ^           ^            ^
-        |            |         |           |            |__ the port on which our final destination's service is listening
-        |            |         |           |__ the final destination of our connection (i.e., a web server)
-        |            |         |__ the port we use locally to access the tunnelled connection
-        |            |__ the port on which our gateway's SSH service is listening
-        |__ think of this as the relay between us and where we want to go; this can also be in user@domain format
+#       ^            ^         ^           ^            ^
+#       |            |         |           |            |__ the port on which our final destination's service is listening
+#       |            |         |           |__ the final destination of our connection; use localhost when you want to access a port on <gateway>
+#       |            |         |__ the port we use locally to access the tunnelled connection
+#       |            |__ the port on which our gateway's SSH service is listening
+#       |__ think of this as the host that can reach (i.e., the port belongs to that machine,
+#           or that machine can access the machine with the desired port);
+#           this can also be in user@domain format
+#
+# Example: A web server is running on host remote-server.com on port 8080.
+# However, this port is bound to 127.0.0.1 and consequently not accessible
+# by us. Fortunately, we have SSH access to this machine. From our machine, we
+# could run:
+ssh -N remote-server.com -p 22 -L 4444:localhost:8080
+# Now, navigating to http://localhost:4444 on our machine will bring us to the
+# formerly-protected web server running on remote-server.com. Note that the
+# `-p 22` is explicit; this can typically be omitted since 22 is the default
+# SSH port.
 
+# Remote Port Forwarding (-R)
+# ---------------------------
 # remote port forwarding (tunnel a remote port to a local server;
 # use this to directly connect to services running on an internal
 # host that we have a shell on; the <remoteporttobind> port will be
 # accessible on 127.0.0.1 on our attack machine if tunnelling is successful)
 ssh -N <gateway> -p <port> -R <remoteporttobind>:<localhost>:<localport>
-        ^            ^         ^                  ^           ^
-        |            |         |                  |           |__ the port associated with the vulnerable service on the target
-        |            |         |                  |__ the address on which the  (typically 127.0.0.1)
-        |            |         |__ the port on which we expose the vulnerable service to our attack machine
-        |            |__ the port on which our attack machine's SSH service is listening
-        |__ the attack machine address from which we want to connect to the target machine
+#       ^            ^         ^                  ^           ^
+#       |            |         |                  |           |__ the port from which traffic will be tunnelled (i.e., the internal port we want to expose)
+#       |            |         |                  |__ the host on which to "expose" <localport> (typically localhost/127.0.0.1);
+#       |            |         |__ the port to which traffic will be tunnelled on the remote server (i.e., our attack machine)
+#       |            |__ the port on which our attack machine's SSH service is listening (you can omit if it's 22)
+#       |__ the remote server on which <remoteporttobind> will be opened and receive tunnelled traffic (i.e., our attack machine)
+#
+# You are developing a web application within your company's network. Because
+# this network uses NAT, you cannot give your friends a public IP with which
+# they can check out you sweet site. However, you do own a server at
+# brian.cool-servers-r-us.com which conveniently runs an SSH service, too.
+# From our development machine, we can run:
+ssh -N brian.cool-servers-r-us.com -R 6666:localhost:80
+# to expose our development web server running internally on port 80. Our
+# friends can now view our site by going to http://brian.cool-servers-r-us.com:6666
+# in their web browser.
 
+# Jumping (-J)
+# ------------
+# in more modern versions of the OpenSSH client, we can specify an intermediary
+# host as a jump host
+ssh -J user@intermediate-host.com user@host-i-couldnt-directly-reach.com
+
+# Dynamic Port Forwarding (-D)
+# ----------------------------
 # dynamic port forwarding (set a local listening port and have it
 # tunnel incoming traffic to any remote destination through a proxy)
 ssh -D <localproxyport> -p <remoteport> <target>
-        ^                   ^            ^
-        |                   |            |__ vulnerable DMZ server which we will use to route traffic to private network(s)
-        |                   |__ open port on vulnerable DMZ server through which we route traffic
-        |__ local port from which incoming traffic is tunnelled
+#       ^                   ^            ^
+#       |                   |            |__ vulnerable DMZ server which we will use to route traffic to private network(s)
+#       |                   |__ open port on vulnerable DMZ server through which we route traffic
+#       |__ local port through which traffic is tunnelled
 
 # proxychains (combine this with SSH dynamic port forwarding over port
 # 8080 to access hosts within an internal network over a compromised
