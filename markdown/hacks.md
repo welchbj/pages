@@ -1390,9 +1390,8 @@ ssh -D <localproxyport> -p <remoteport> <target>
 #       |                   |__ open port on vulnerable DMZ server through which we route traffic
 #       |__ local port through which traffic is tunnelled
 
-# proxychains (combine this with SSH dynamic port forwarding over port
-# 8080 to access hosts within an internal network over a compromised
-# DMZ machine)
+# proxychains (combine this with SSH dynamic port forwarding over default port
+# 9050 to access hosts within an internal network over a compromised DMZ machine)
 proxychains nmap -sT -Pn <ip>/<cidr>
 ```
 
