@@ -1218,9 +1218,9 @@ iwlist <int> scan
 ip xfrm state list
 ```
 
-* Ping sweep on a range of IPs
+* Ping sweep on a range of IPs; use the `-i 0.2` option to speed up timeouts, if necessary
 ``` sh
-for x in {1..254..1}; do ping 0c 1 1.1.1.$x | grep "64 b" | cut -d" " -f4 > ips.txt; done
+for x in {1..254..1}; do ping -c 1 1.1.1.$x | grep "64 b" | cut -d" " -f4 > ips.txt; done
 ```
 
 * DNS reverse lookup
