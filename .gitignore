@@ -1,3 +1,6 @@
 __pycache__
 *.py[cod]
-build
+temp.txt
+
+build/
+.vscode/
