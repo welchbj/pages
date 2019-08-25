@@ -3,13 +3,17 @@
 from __future__ import print_function
 
 import datetime
+import doctest
 import markdown2
 import os
 import shutil
 import sys
+import unittest
 
 from collections import (
     namedtuple)
+from glob import (
+    glob)
 from jinja2 import (
     Environment,
     FileSystemLoader)
@@ -35,6 +39,10 @@ Page = namedtuple(
      'title'])
 
 
+class TestFailureError(Exception):
+    """Exception type for test failures."""
+
+
 def _mkdir_if_not_present(dirname):
     """Utility to make a directory if it does not already exist."""
     Path(dirname).mkdir(parents=True, exist_ok=True)
@@ -57,6 +65,18 @@ def _iter_paths(directory, glob_pattern):
 def _to_dt(dt_str):
     """Convert a string to a datetime.datetime object."""
     return datetime.datetime.strptime(dt_str, DT_IN_FORMAT)
+
+
+def test():
+    """Run doctests over all articles."""
+    articles_pattern = os.path.join(MD_DIR, '*.md')
+    suite = doctest.DocFileSuite(
+        *glob(articles_pattern),
+        optionflags=doctest.IGNORE_EXCEPTION_DETAIL)
+    runner = unittest.TextTestRunner()
+    result = runner.run(suite)
+    if not result.wasSuccessful():
+        raise TestFailureError
 
 
 def build():
@@ -136,21 +156,37 @@ def serve():
 TASKS = {
     'build': build,
     'clean': clean,
-    'serve': serve
+    'serve': serve,
+    'test': test
 }
 TASK_KEYS = list(sorted(TASKS.keys()))
 
 
+def main():
+    try:
+        sys.argv.pop(0)
+        if len(sys.argv) != 1:
+            raise ValueError('Must specify task to perform')
+
+        task = sys.argv.pop()
+        if task not in TASK_KEYS:
+            raise ValueError('Specified task must be one of:' +
+                             ', '.join(TASK_KEYS))
+
+        task_func = TASKS[task]
+        task_func()
+    except ValueError as e:
+        print(e, file=sys.stderr)
+        return 1
+    except TestFailureError:
+        print('Tests failed!')
+        return 1
+    except Exception as e:
+        print('Unknown exception occured!', file=sys.stderr)
+        raise e
+
+    return 0
+
+
 if __name__ == '__main__':
-    sys.argv.pop(0)
-    if len(sys.argv) != 1:
-        print('Must specify task to perform', file=sys.stderr)
-        sys.exit(1)
-
-    task = sys.argv.pop()
-    if task not in TASK_KEYS:
-        print('Specified task must be one of:', ', '.join(TASK_KEYS))
-        sys.exit(1)
-
-    task_func = TASKS[task]
-    task_func()
+    sys.exit(main())
