@@ -2817,7 +2817,8 @@ python -c "import sys; print(sys.byteorder)"
 $ python
 >>> import struct
 >>> struct.pack('<I', 0xdeadbeef)
-'\xEF\xBE\xAD\xDE'
+b'\xef\xbe\xad\xde'
+
 ```
 
 * Convert register value to byte string
