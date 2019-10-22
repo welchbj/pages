@@ -32,6 +32,10 @@ last_modified_at: 2019-08-13
 * [Stack Overflow - what is XSSI?](https://stackoverflow.com/questions/8028511/what-is-cross-site-script-inclusion-xssi)
 * [Cross-site script inclusion: A fameless but widespread web vulnerability class](https://www.scip.ch/en/?labs.20160414)
 
+## CSS Injections
+
+* [Stealing data with CSS](https://www.mike-gualtieri.com/posts/stealing-data-with-css-attack-and-defense)
+
 ## Open redirects
 
 * [Stack Overflow - URL fragment and 302 redirects](https://stackoverflow.com/questions/2286402/url-fragment-and-302-redirects/2305927)
@@ -43,6 +47,7 @@ last_modified_at: 2019-08-13
 ## Cache poisoning / request smuggling
 
 * [HTTP desync attacks: request smuggling reborn](https://portswigger.net/blog/http-desync-attacks-request-smuggling-reborn)
+* [Practical web cache poisoning](https://portswigger.net/research/practical-web-cache-poisoning)
 
 ## Insecure direct object reference (IDOR)
 
