@@ -34,6 +34,7 @@ last_modified_at: 2019-08-13
 
 ## CSS Injections
 
+* [CSS injection primitives](https://x-c3ll.github.io/posts/CSS-Injection-Primitives/)
 * [Stealing data with CSS](https://www.mike-gualtieri.com/posts/stealing-data-with-css-attack-and-defense)
 
 ## Open redirects
